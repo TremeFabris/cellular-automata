@@ -21,8 +21,7 @@ def input_saveimg():
     else:
         return False
 
-# TODO: Adicionar info sobre r e k no nome da imagem
-def plot_automata_saveimg(matrix: np.ndarray, save_img: bool, rule_num: int, impl: str):
+def plot_automata_saveimg(matrix: np.ndarray, save_img: bool, rule_num: int, impl: str, r: int, k: int):
 
     ''' Plot or save the evolution graph of the cellular automata.
     
@@ -39,7 +38,7 @@ def plot_automata_saveimg(matrix: np.ndarray, save_img: bool, rule_num: int, imp
     ax.matshow(matrix)
     ax.axis(False)
     if save_img:
-        plt.savefig("img/E_{}_plot{}.png".format(impl, rule_num), dpi=300, bbox_inches='tight')
+        plt.savefig("img/E_r{}k{}_{}_rule{}.png".format(r, k, impl, rule_num), dpi=300, bbox_inches='tight')
     else:
         plt.show()
     plt.close()
@@ -60,7 +59,7 @@ if __name__ == "__main__":
         print("\nThis might take a while...")
         for i in range(max_rules):
             matrix = ca.run_automata(i, GEN, IMPL, r, k)
-            plot_automata_saveimg(matrix, True, i, IMPL)
+            plot_automata_saveimg(matrix, True, i, IMPL, r, k)
         print("\nImages saved!")
     
     elif AMNT_RULES > 1:
@@ -68,9 +67,9 @@ if __name__ == "__main__":
         RULES_ARRAY = [ int(r) for r in INPUT_ARRAY.split() ]
 
         print("\nThis might take a while...")
-        for r in RULES_ARRAY:
-            matrix = ca.run_automata(r, GEN, IMPL, r, k)
-            plot_automata_saveimg(matrix, True, r, IMPL)
+        for rule in RULES_ARRAY:
+            matrix = ca.run_automata(rule, GEN, IMPL, r, k)
+            plot_automata_saveimg(matrix, True, rule, IMPL, r, k)
         print("\nImages saved!")
 
     elif AMNT_RULES == 1:
@@ -78,7 +77,7 @@ if __name__ == "__main__":
 
         SAVE_IMG = input_saveimg()
         matrix = ca.run_automata(RULE, GEN, IMPL, r, k)
-        plot_automata_saveimg(matrix, SAVE_IMG, RULE, IMPL)
+        plot_automata_saveimg(matrix, SAVE_IMG, RULE, IMPL, r, k)
 
     else:
         print("\nExiting...")
